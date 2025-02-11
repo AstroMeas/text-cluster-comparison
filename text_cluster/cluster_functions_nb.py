@@ -217,7 +217,7 @@ def find_cluster_old(a, b, min_clus_length,text_a_name='text_a',text_b_name='tex
     return data_df
 
 
-def compare_defter(a, b, cluster_df=pd.DataFrame(), text_a_name='text_a',text_b_name='text_b'):
+def compare_texts(a, b, cluster_df=pd.DataFrame(), text_a_name='a',text_b_name='b'):
     """
     Compares two sequences and organizes their similarities and unique elements into a structured DataFrame.
 
