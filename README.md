@@ -21,11 +21,16 @@ This project provides a Python-based pipeline for comparing two texts and identi
 To run this project, you'll need Python 3.x and the following libraries:
 
 - pandas
+- numpy
+- dash
+- plotly
+- jinja2
+- numba
 
 You can install the required dependencies using `pip`:
 
 ```bash
-pip install pandas
+pip install pandas,numpy,dash,plotly,jimja2,numba
 ```
 ### Example Usage
 
