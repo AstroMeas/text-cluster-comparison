@@ -1,5 +1,5 @@
 class Cluster:
-    def __init__(self, position_a,text_a_name='text_a',text_b_name='text_b'):
+    def __init__(self, position_a, text_a_name='text_a', text_b_name='text_b'):
         """
     Represents a cluster of matching elements between two sequences and manages related data.
 
@@ -35,7 +35,8 @@ class Cluster:
         self.pos_a = position_a
 
         # Bezeichnung der Cluster-Tupel-Elemente für bessere Lesbarkeit
-        self.clus_tupel_naming = (f'start_{text_a_name}', f'end_{text_a_name}', f'start_{text_b_name}', f'end_{text_b_name}', 'length')
+        self.clus_tupel_naming = (f'start_{text_a_name}', f'end_{text_a_name}', 
+                                  f'start_{text_b_name}', f'end_{text_b_name}', 'length')
 
         # Liste zur Speicherung der Cluster-Daten
         self.clusters = []
@@ -68,6 +69,5 @@ class Cluster:
         und speichert ihn als finalen Cluster.
         """
         if self.clusters:
-        # Nutzt max() mit einem Schlüssel für die Länge
+            # Nutzt max() mit einem Schlüssel für die Länge
             self.final_cluster = max(self.clusters, key=lambda x: x[-1])
-        

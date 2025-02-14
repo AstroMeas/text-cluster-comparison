@@ -11,10 +11,5 @@ setup(
     packages=find_packages(),
     install_requires=reqs,
     include_package_data=True,
-    entry_points={
-        "console_scripts": [
-            "cluster=text_cluster.cli:main",  # CLI-Befehl registrieren
-        ],
-    },
-    python_requires=">=3.7",
+    python_requires=">=3.7"
 )
