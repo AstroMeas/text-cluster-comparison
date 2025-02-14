@@ -1,5 +1,5 @@
 from cluster_functions import *
-from debther_texts import *
+from text_cluster.load_example_text import *
 
 def edition_comparison_debther(text_a=None, text_b=None,*, sep=None, replace_chars=None, min_cluster_length=10,text_a_name='text_a',text_b_name='text_b'):
     """

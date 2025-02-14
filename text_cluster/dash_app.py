@@ -3,7 +3,7 @@ import numpy as np
 import datetime
 import json
 
-from debther_texts import *
+from text_cluster.load_example_text import *
 from cluster_functions_nb import *
 
 from dash import Dash, html, dcc, Input, Output, callback,State

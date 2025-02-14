@@ -3,7 +3,7 @@ from itertools import chain
 import pandas as pd
 import numpy as np
 from numba import njit
-import debther_texts
+import load_example_text as load_example_text
 
 
 def clean(edition, sep=None, replace_chars=None):
@@ -227,9 +227,9 @@ def compare_texts(a, b, cluster_df=pd.DataFrame(), text_a_name='a', text_b_name=
 
 
 if __name__ == "__main__":
-    a = debther_texts.debther_gangtok()
-    b = debther_texts.debther_peking()
-    sep, repl, _, _ = debther_texts.debther_parameters()
+    a = load_example_text.debther_gangtok()
+    b = load_example_text.debther_peking()
+    sep, repl, _, _ = load_example_text.debther_parameters()
 
     a = clean(a, sep, repl)
     b = clean(b, sep, repl)
