@@ -3,8 +3,8 @@ class Cluster:
         """
     Represents a cluster of matching elements between two sequences and manages related data.
 
-    The `Cluster` class helps store and process information about clusters of matching elements 
-    identified between two texts or sequences. It supports adding clusters, naming the cluster components, 
+    The `Cluster` class helps store and process information about clusters of matching elements
+    identified between two texts or sequences. It supports adding clusters, naming the cluster components,
     and selecting the largest cluster for final processing.
 
     Attributes:

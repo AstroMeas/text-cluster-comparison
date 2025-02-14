@@ -5,6 +5,7 @@ import numpy as np
 from numba import njit
 import debther_texts
 
+
 def clean(edition, sep=None, replace_chars=None):
     """
     Cleans and tokenizes a given text by applying character replacements and splitting based on specified separators.
@@ -30,9 +31,9 @@ def clean(edition, sep=None, replace_chars=None):
 
     if replace_chars is None:
         replace_chars = []
-        print(f'no characters to replace given.')  # Beispiel-Ersetzungen
+        print('no characters to replace given.')  # Beispiel-Ersetzungen
     else:
-        # ersetze Zeichen in der edition 
+        # ersetze Zeichen in der edition
         translation_table = str.maketrans(dict(replace_chars))
         edition = edition.translate(translation_table)
     print(sep)
@@ -40,7 +41,7 @@ def clean(edition, sep=None, replace_chars=None):
     result = [edition]
     for separator in sep:
         try:
-        # Zerlege alle bisherigen Einträge anhand des aktuellen Trennzeichens
+            # Zerlege alle bisherigen Einträge anhand des aktuellen Trennzeichens
             result = list(chain.from_iterable(part.split(separator) for part in result))
         except:
             pass
@@ -48,8 +49,6 @@ def clean(edition, sep=None, replace_chars=None):
     result = [item.strip() for item in result if item.strip()]
 
     return result
-
-
 
 
 def hash_strings(words):
@@ -88,14 +87,14 @@ def cluster_search(a, b, min_length):
     return clusters[:clus_pos], clus_pos
 
 
-def find_cluster(a_seq: list, b_seq: list, min_length: int=10,a_name='text_a',b_name='text_b'):
+def find_cluster(a_seq: list, b_seq: list, min_length: int=10, a_name='text_a', b_name='text_b'):
     """
     Finds clusters of similar sequences in two lists of strings.
     """
     a = hash_strings(a_seq)
     b = hash_strings(b_seq)
 
-    clusters, cluster_pos = cluster_search(a,b,min_length)
+    clusters, cluster_pos = cluster_search(a, b, min_length)
 
     cluster_lst = []
     last_cluster = -1
@@ -103,9 +102,9 @@ def find_cluster(a_seq: list, b_seq: list, min_length: int=10,a_name='text_a',b_
         if clus[0] > last_cluster and last_cluster != -1:
             cluster_lst[-1].pick_finalcluster()
         if clus[0] > last_cluster:
-            cluster_lst.append(Cluster(clus[0],a_name,b_name))
+            cluster_lst.append(Cluster(clus[0], a_name, b_name))
             last_cluster = clus[0]
-        cluster_lst[-1].append_cluster(clus[1],clus[2])
+        cluster_lst[-1].append_cluster(clus[1], clus[2])
     cluster_lst[-1].pick_finalcluster()
 
     cluster_dict ={}
@@ -117,30 +116,13 @@ def find_cluster(a_seq: list, b_seq: list, min_length: int=10,a_name='text_a',b_
         for j in range(5):
             cluster_dict[i.clus_tupel_naming[j]].append(i.final_cluster[j])
 
-
     data_df = pd.DataFrame(cluster_dict)
     data_df['differenz'] = data_df[i.clus_tupel_naming[2]] - data_df[i.clus_tupel_naming[0]]    
     
     return data_df
 
 
-
-
-if __name__ == "__main__":
-    a = debther_texts.debther_gangtok()
-    b = debther_texts.debther_peking()
-    sep,repl,_,_ = debther_texts.debther_parameters()
-    
-    a = clean(a,sep,repl)
-    b = clean(b,sep,repl)
-    find_cluster(a,b,10)
-
-
-
-
-
-
-def compare_texts(a, b, cluster_df=pd.DataFrame(), text_a_name='a',text_b_name='b'):
+def compare_texts(a, b, cluster_df=pd.DataFrame(), text_a_name='a', text_b_name='b'):
     """
     Compares two sequences and organizes their similarities and unique elements into a structured DataFrame.
 
@@ -151,7 +133,7 @@ def compare_texts(a, b, cluster_df=pd.DataFrame(), text_a_name='a',text_b_name='
         a (list): The first sequence to compare.
         b (list): The second sequence to compare.
         cluster_df (pandas.DataFrame, optional): A DataFrame containing cluster information. Defaults to an empty DataFrame.
-            Expected columns: 
+            Expected columns:
             - f'start_{text_a_name}', f'end_{text_a_name}', f'start_{text_b_name}', f'end_{text_b_name}', 'length'.
         text_a_name (str, optional): The name of the first sequence for labeling. Defaults to 'text_a'.
         text_b_name (str, optional): The name of the second sequence for labeling. Defaults to 'text_b'.
@@ -187,25 +169,22 @@ def compare_texts(a, b, cluster_df=pd.DataFrame(), text_a_name='a',text_b_name='
         # Output: A DataFrame with rows for unique and cluster segments.
     """
 
-    
     # Wandle Dataframe in Dictionary um
-    dict = cluster_df.to_dict(orient='tight',index=False)
-    cluster_dict={}
+    dict = cluster_df.to_dict(orient='tight', index=False)
+    cluster_dict = {}
     for i in range(6):
-        cluster_dict[dict['columns'][i]]=[]
+        cluster_dict[dict['columns'][i]] = []
         for j in range(len(dict['data'])):
             cluster_dict[dict['columns'][i]].append(dict['data'][j][i])     
     # Bereite Dictionary für Ausgabe vor
-    clustered_text = {'tag':[],f'Pos_{text_a_name}':[],f'Length_{text_a_name}':[],f'{text_a_name}':[],
-                      f'Pos_{text_b_name}':[],f'Length_{text_b_name}':[],f'{text_b_name}':[],
-                      'Length_Cluster':[],'Cluster':[]}
-    
+    clustered_text = {'tag': [], f'Pos_{text_a_name}': [], f'Length_{text_a_name}': [], f'{text_a_name}': [],
+                      f'Pos_{text_b_name}': [], f'Length_{text_b_name}': [],f'{text_b_name}': [],
+                      'Length_Cluster': [], 'Cluster': []}
+
     # Validierung der Eingaben
     required_keys = [f'start_{text_a_name}', f'end_{text_a_name}', f'start_{text_b_name}', f'end_{text_b_name}', 'length']
     if not all(key in cluster_dict for key in required_keys):
         raise ValueError(f"cluster_dict muss die Keys {required_keys} enthalten. Es enthält {[key for key in cluster_dict]}")
- 
-
 
     a_start = 0
     b_start = 0
@@ -229,7 +208,7 @@ def compare_texts(a, b, cluster_df=pd.DataFrame(), text_a_name='a',text_b_name='
         clustered_text['Cluster'].append('')
 
         # Cluster hinzufügen
-        clustered_text['tag'].append('cluster') 
+        clustered_text['tag'].append('cluster')
         clustered_text[f'Pos_{text_a_name}'].append(start_a)
         clustered_text[f'Pos_{text_b_name}'].append(start_b)
         clustered_text[f'Length_{text_a_name}'].append(0)
@@ -243,6 +222,15 @@ def compare_texts(a, b, cluster_df=pd.DataFrame(), text_a_name='a',text_b_name='
         a_start = end_a
         b_start = end_b
 
-
-    #wandle Dictionary in DataFrame um
+    # wandle Dictionary in DataFrame um
     return pd.DataFrame(clustered_text)
+
+
+if __name__ == "__main__":
+    a = debther_texts.debther_gangtok()
+    b = debther_texts.debther_peking()
+    sep, repl, _, _ = debther_texts.debther_parameters()
+
+    a = clean(a, sep, repl)
+    b = clean(b, sep, repl)
+    find_cluster(a, b, 10)
