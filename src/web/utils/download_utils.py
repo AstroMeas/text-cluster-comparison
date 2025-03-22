@@ -1,52 +1,99 @@
 import pandas as pd
 from dash import dcc
 
-def download_df(n_clicks, data, format, filename):
+def prepare_download(data, format, filename):
     """
     Prepares data for download in specified format.
     
     Args:
-        n_clicks: Number of button clicks
-        data: Data to download
-        format: Download format (html or csv)
-        filename: Base filename without extension
+        data (dict): Data to be downloaded
+        format (str): Download format ('csv' or 'html')
+        filename (str): Base filename without extension
         
     Returns:
-        dict or None: Download data dictionary or None if no data to download
+        dict: Download data dictionary for dcc.Download component
     """
     if not data:
         return None
     
+    # Convert to DataFrame if it's a dict
+    df = pd.DataFrame(data)
+    
     if format == 'html':
-        df = pd.DataFrame(data)
-        
-        # CSS styling for HTML table
+        # Create HTML table with styling
         style = """
         <style>
-            table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; }
-            th { background-color: lightgrey; font-weight: bold; text-align: left; padding: 8px; }
-            td { min-width: 20px; max-width: 400px; word-wrap: break-word; padding: 8px; border: 1px solid #ddd; }
-            tr:nth-child(even) { background-color: #f2f2f2; }
-            tr:hover { background-color: #ddd; }
+            table { 
+                width: 100%; 
+                border-collapse: collapse; 
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+                margin-bottom: 20px;
+            }
+            th { 
+                background-color: #f8f9fa; 
+                color: #212529;
+                font-weight: bold; 
+                text-align: left; 
+                padding: 12px 8px; 
+                border: 1px solid #dee2e6;
+            }
+            td { 
+                padding: 12px 8px; 
+                border: 1px solid #dee2e6; 
+                word-wrap: break-word;
+                vertical-align: top;
+            }
+            tr:nth-child(even) { 
+                background-color: #f8f9fa; 
+            }
+            tr:hover { 
+                background-color: #e9ecef; 
+            }
+            h1 {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+                color: #212529;
+            }
+            .timestamp {
+                font-size: 0.8em;
+                color: #6c757d;
+                margin-bottom: 20px;
+            }
         </style>
         """
-
-        # Pandas Styler for HTML table
-        html_table = df.style.set_table_styles([
-            {'selector': 'th', 'props': [('background-color', 'lightgrey'), ('font-weight', 'bold'), ('text-align', 'left')]},
-            {'selector': 'td', 'props': [('text-align', 'left'), ('min-width', '20px'), ('max-width', '400px'), ('word-wrap', 'break-word')]},
-            {'selector': 'tr:nth-child(even)', 'props': [('background-color', '#f2f2f2')]},
-            {'selector': 'tr:hover', 'props': [('background-color', '#ddd')]}
-        ]).to_html()
-
-        # HTML content with styling
-        html_content = f"{style}\n{html_table}"
-
-        return dict(content=html_content, filename=f"{filename}.html", type="text/html")
+        
+        # Add timestamp and title
+        from datetime import datetime
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        header = f"""
+        <h1>{filename.replace('_', ' ').title()}</h1>
+        <div class="timestamp">Generated: {timestamp}</div>
+        """
+        
+        # Generate HTML table
+        html_table = df.to_html(
+            index=False,
+            border=0,
+            classes='data-table',
+            na_rep='',
+            float_format=lambda x: f"{x:.2f}" if isinstance(x, float) else x
+        )
+        
+        # Combine all parts
+        html_content = f"{style}\n{header}\n{html_table}"
+        
+        return dict(
+            content=html_content,
+            filename=f"{filename}.html",
+            type="text/html"
+        )
     
     elif format == 'csv':
-        df = pd.DataFrame(data)
-        return dcc.send_data_frame(df.to_csv, f"{filename}.csv", index=False)
+        return dcc.send_data_frame(
+            df.to_csv,
+            f"{filename}.csv",
+            index=False
+        )
     
     else:
         return None

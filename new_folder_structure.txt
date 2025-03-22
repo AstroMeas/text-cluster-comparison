@@ -1,61 +1,62 @@
-text-cluster-comparison/
-│
-├── src/                          # Hauptquellcode
-│   ├── preprocessing/            # Textbereinigung und -vorbereitung
-│   │   ├── __init__.py
-│   │   ├── text_preprocessing.py # Text reinigen und tokenisieren
-│   │   └── utils.py              # Hilfsfunktionen für Preprocessing
-│   │
-│   ├── clustering/               # Cluster-Algorithmen
-│   │   ├── __init__.py
-│   │   ├── cluster.py            # Cluster-Klasse
-│   │   ├── cluster_search.py     # Cluster-Suchalgorithmen
-│   │   └── compare.py            # Cluster-Vergleichsfunktionen
-│   │
-│   ├── visualization/            # Visualisierungskomponenten
+.
+├── text-cluster-comparison/
+│   ├── examples/
+│   │   ├── data/
+│   │   └── notebooks/
+│   │       └── debther_main.ipynb
+│   ├── scripts/
+│   │   ├── batch_process.py
+│   │   └── run_app.py
+│   ├── src/
+│   │   ├── clustering/
+│   │   │   ├── __init__.py
+│   │   │   ├── cluster.py
+│   │   │   ├── cluster_search.py
+│   │   │   └── compare.py
+│   │   ├── preprocessing/
+│   │   │   ├── __init__.py
+│   │   │   ├── text_preprocessing.py
+│   │   │   └── utils.py
+│   │   ├── text_example/
+│   │   │   ├── load_example_Notre_dame_wikipedia for claude.py
+│   │   │   └── load_example_Notre_dame_wikipedia.py
+│   │   ├── visualization/
+│   │   ├── web/
+│   │   │   ├── assets/
+│   │   │   │   └── custom.css
+│   │   │   ├── callbacks/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── analysis_callbacks.py
+│   │   │   │   ├── data_callbacks.py
+│   │   │   │   ├── download_callbacks.py
+│   │   │   │   ├── graph_callbacks.py
+│   │   │   │   ├── input_callbacks.py
+│   │   │   │   ├── navigation_callbacks.py
+│   │   │   │   └── theme_callbacks.py
+│   │   │   ├── layouts/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── analysis_layout.py
+│   │   │   │   ├── input_layout.py
+│   │   │   │   ├── main_layout.py
+│   │   │   │   ├── sidebar.py
+│   │   │   │   ├── theme_toggle.py
+│   │   │   │   └── welcome_layout.py
+│   │   │   ├── utils/
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── download_utils.py
+│   │   │   ├── __init__.py
+│   │   │   └── app.py
 │   │   └── __init__.py
-│   │ 
-│   ├── text_example
+│   ├── tests/
 │   │   ├── __init__.py
-│   │   └── load_example_Notre_dame_wikipedia.py #loads to example texts for testing
-│   │
-│   │
-│   │
-│   │
-│   └── web/                      # Web-App
-│       ├── __init__.py
-│       ├── app.py                # Haupt-App-Definition
-│       ├── layouts/              # UI-Layouts für mehrere Seiten
-│       │   ├── __init__.py
-│       │   ├── main_page.py
-│       │   ├── analysis_page.py
-│       │   └── settings_page.py
-│       └── callbacks/            # Dash-Callbacks nach Funktionalität sortiert
-│           ├── __init__.py
-│           ├── cluster_callbacks.py
-│           ├── visualization_callbacks.py
-│           └── export_callbacks.py
-│
-├── tests/                        # Tests
-│   ├── __init__.py
-│   ├── test_preprocessing.py
-│   ├── test_clustering.py
-│   └── test_text_preprocessing.py
-│
-├── examples/                     # Beispieldaten und Anwendungsfälle
-│   ├── data/
-│   └── notebooks/
-│
-├── docs/                         # Dokumentation
-│   ├── user_guide.md
-│   ├── api_reference.md
-│   └── examples.md
-│
-├── scripts/                      # Hilfsskripte
-│   ├── run_app.py
-│   └── batch_process.py          # CLI für Batch-Verarbeitung
-│
-├── Dockerfile
-├── .gitignore
-├── setup.py
-├── README.md
+│   │   ├── test_clustering.py
+│   │   ├── test_compare.py
+│   │   └── test_text_preprocessing.py
+│   ├── .gitattributes
+│   ├── .gitignore
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── main.py
+│   ├── new_folder_structure.txt
+│   ├── requirements.txt
+│   └── setup.py

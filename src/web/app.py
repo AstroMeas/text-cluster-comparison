@@ -1,23 +1,36 @@
-from dash import Dash
+from dash import Dash, html, dcc
+import dash
 
-# Import layout
-from layouts.main_layout import create_layout
+# Importiere das Haupt-Layout
+from layouts.main_layout import create_main_layout
 
-# Import callbacks (they get registered when imported)
-from callbacks import data_callbacks, graph_callbacks, download_callbacks
+# Importiere alle Callbacks
+from callbacks import navigation_callbacks, input_callbacks
+from callbacks import analysis_callbacks, download_callbacks, theme_callbacks
 
-# Initialize the app
-app = Dash(__name__)
+# Initialisiere die App
+app = Dash(
+    __name__,
+    suppress_callback_exceptions=True,  # Wichtig für Multi-Page-Apps
+    meta_tags=[  # Responsive Meta-Tags
+        {"name": "viewport", "content": "width=device-width, initial-scale=1"}
+    ]
+)
 
-# Set the app layout
-app.layout = create_layout()
+# Setze den Titel der App
+app.title = 'Text Cluster Comparison'
 
-# This prevents callback errors on initial load
-app.config.suppress_callback_exceptions = True
+# Definiere das Layout
+app.layout = create_main_layout()
 
-def run_app(host='127.0.0.1'):
+# Startseite URL
+app.validation_layout = html.Div([
+    create_main_layout(),
+])
+
+def run_app(host='127.0.0.1', port=8050, debug=False):
     """Run the Dash app."""
-    app.run(debug=False, jupyter_mode="external", port=8050, host=host)
+    app.run(debug=debug, host=host, port=port)
 
 if __name__ == '__main__':
-    run_app()
+    run_app(debug=True)

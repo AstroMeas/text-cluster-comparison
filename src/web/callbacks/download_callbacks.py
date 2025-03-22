@@ -1,48 +1,53 @@
-from dash import callback, Input, Output, State, dcc
+from dash import Output, Input, State, callback, dcc
+import pandas as pd
+from utils.download_utils import prepare_download
 
-# Import download utilities
-from utils.download_utils import download_df
-
-# Download table data callback
+# Callback for downloading table data
 @callback(
-    Output('download_1', 'data'),
-    Input('download_table_button', 'n_clicks'),
-    State('download_df', 'data'),
-    State('download_format', 'value'),
+    Output('download-table', 'data'),
+    [Input('download-table-button', 'n_clicks')],
+    [State('download-data-store', 'data'),
+     State('download-format', 'value')],
     prevent_initial_call=True
 )
 def download_table_data(n_clicks, data, format):
     """
-    Downloads the table data in the specified format.
+    Prepares the comparison table data for download.
     
     Args:
-        n_clicks: Number of button clicks
-        data: Data to download
-        format: Download format (html or csv)
+        n_clicks (int): Number of button clicks
+        data (dict): Table data from store
+        format (str): Download format ('csv' or 'html')
         
     Returns:
-        dict or None: Download data dictionary or None if no data to download
+        dict: Download data dictionary
     """
-    return download_df(n_clicks, data, format, 'table_data')
+    if n_clicks <= 0 or not data:
+        return None
+    
+    return prepare_download(data, format, 'comparison_table')
 
-# Download graph data callback
+# Callback for downloading graph data
 @callback(
-    Output('download_2', 'data'),
-    Input('download_graph_button', 'n_clicks'),
-    State('store_df', 'data'),
-    State('download_format', 'value'),
+    Output('download-graph', 'data'),
+    [Input('download-graph-button', 'n_clicks')],
+    [State('cluster-data-store', 'data'),
+     State('download-format', 'value')],
     prevent_initial_call=True
 )
 def download_graph_data(n_clicks, data, format):
     """
-    Downloads the graph data in the specified format.
+    Prepares the cluster data for download.
     
     Args:
-        n_clicks: Number of button clicks
-        data: Data to download
-        format: Download format (html or csv)
+        n_clicks (int): Number of button clicks
+        data (dict): Cluster data from store
+        format (str): Download format ('csv' or 'html')
         
     Returns:
-        dict or None: Download data dictionary or None if no data to download
+        dict: Download data dictionary
     """
-    return download_df(n_clicks, data, format, 'graph_data')
+    if n_clicks <= 0 or not data:
+        return None
+    
+    return prepare_download(data, format, 'cluster_data')
