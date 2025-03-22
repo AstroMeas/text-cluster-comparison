@@ -1,0 +1,199 @@
+/* Grundlegende CSS für Light- und Dark-Mode */
+
+:root {
+    /* Light Mode Variables */
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --sidebar-bg: #f8f9fa;
+    --card-bg: #ffffff;
+    --border-color: #dee2e6;
+    --hover-color: #e9ecef;
+    --accent-color: #007bff;
+    --header-color: #343a40;
+}
+
+/* Dark Mode Variables */
+.dark-mode {
+    --bg-color: #212529;
+    --text-color: #f8f9fa;
+    --sidebar-bg: #343a40;
+    --card-bg: #2a2e33;
+    --border-color: #495057;
+    --hover-color: #495057;
+    --accent-color: #0d6efd;
+    --header-color: #0d6efd;
+}
+
+/* Hauptstyling */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Container-Layout */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 20px 0;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.sidebar-header {
+    padding: 0 15px 20px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--accent-color);
+}
+
+.sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.sidebar-link {
+    display: block;
+    padding: 10px 15px;
+    cursor: pointer;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.sidebar-link:hover, .sidebar-link.active {
+    background-color: var(--hover-color);
+    color: var(--accent-color);
+}
+
+/* Theme toggle */
+.theme-toggle {
+    margin: 20px 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.theme-toggle-label {
+    margin-left: 10px;
+}
+
+/* Content container */
+.content-container {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Karten für Inhalte */
+.content-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Text-Input Bereiche */
+.input-section {
+    margin-bottom: 20px;
+}
+
+.text-area-container {
+    margin-top: 10px;
+}
+
+/* Überschriften */
+h1, h2, h3, h4 {
+    color: var(--header-color);
+}
+
+/* Buttons */
+.app-button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.app-button:hover {
+    opacity: 0.9;
+}
+
+/* Graph und Tabellen-Container */
+.graph-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.graph-item {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+}
+
+/* Dash components styling */
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner table {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+}
+
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner th {
+    background-color: var(--sidebar-bg) !important;
+    color: var(--text-color) !important;
+}
+
+/* Input fields */
+.dash-dropdown .Select-control,
+.dash-dropdown .Select-menu-outer,
+.dash-dropdown .Select-menu,
+input,
+textarea {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Slider */
+.rc-slider-rail {
+    background-color: var(--border-color) !important;
+}
+
+.rc-slider-track {
+    background-color: var(--accent-color) !important;
+}
+
+.rc-slider-handle {
+    border-color: var(--accent-color) !important;
+    background-color: var(--accent-color) !important;
+}

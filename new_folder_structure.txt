@@ -1,0 +1,61 @@
+text-cluster-comparison/
+│
+├── src/                          # Hauptquellcode
+│   ├── preprocessing/            # Textbereinigung und -vorbereitung
+│   │   ├── __init__.py
+│   │   ├── text_preprocessing.py # Text reinigen und tokenisieren
+│   │   └── utils.py              # Hilfsfunktionen für Preprocessing
+│   │
+│   ├── clustering/               # Cluster-Algorithmen
+│   │   ├── __init__.py
+│   │   ├── cluster.py            # Cluster-Klasse
+│   │   ├── cluster_search.py     # Cluster-Suchalgorithmen
+│   │   └── compare.py            # Cluster-Vergleichsfunktionen
+│   │
+│   ├── visualization/            # Visualisierungskomponenten
+│   │   └── __init__.py
+│   │ 
+│   ├── text_example
+│   │   ├── __init__.py
+│   │   └── load_example_Notre_dame_wikipedia.py #loads to example texts for testing
+│   │
+│   │
+│   │
+│   │
+│   └── web/                      # Web-App
+│       ├── __init__.py
+│       ├── app.py                # Haupt-App-Definition
+│       ├── layouts/              # UI-Layouts für mehrere Seiten
+│       │   ├── __init__.py
+│       │   ├── main_page.py
+│       │   ├── analysis_page.py
+│       │   └── settings_page.py
+│       └── callbacks/            # Dash-Callbacks nach Funktionalität sortiert
+│           ├── __init__.py
+│           ├── cluster_callbacks.py
+│           ├── visualization_callbacks.py
+│           └── export_callbacks.py
+│
+├── tests/                        # Tests
+│   ├── __init__.py
+│   ├── test_preprocessing.py
+│   ├── test_clustering.py
+│   └── test_text_preprocessing.py
+│
+├── examples/                     # Beispieldaten und Anwendungsfälle
+│   ├── data/
+│   └── notebooks/
+│
+├── docs/                         # Dokumentation
+│   ├── user_guide.md
+│   ├── api_reference.md
+│   └── examples.md
+│
+├── scripts/                      # Hilfsskripte
+│   ├── run_app.py
+│   └── batch_process.py          # CLI für Batch-Verarbeitung
+│
+├── Dockerfile
+├── .gitignore
+├── setup.py
+├── README.md
