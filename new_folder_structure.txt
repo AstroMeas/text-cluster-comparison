@@ -1,5 +1,11 @@
+Project structure (excluding: venv, __pycache__, old, cache)
 .
 ├── text-cluster-comparison/
+│   ├── Tests/
+│   │   ├── __init__.py
+│   │   ├── test_clustering.py
+│   │   ├── test_compare.py
+│   │   └── test_text_preprocessing.py
 │   ├── examples/
 │   │   ├── data/
 │   │   └── notebooks/
@@ -45,18 +51,28 @@
 │   │   │   │   ├── __init__.py
 │   │   │   │   └── download_utils.py
 │   │   │   ├── __init__.py
-│   │   │   └── app.py
+│   │   │   ├── app.py
+│   │   │   └── app_network.py
 │   │   └── __init__.py
-│   ├── tests/
-│   │   ├── __init__.py
-│   │   ├── test_clustering.py
-│   │   ├── test_compare.py
-│   │   └── test_text_preprocessing.py
+│   ├── text_cluster_compare.egg-info/
+│   │   ├── PKG-INFO
+│   │   ├── SOURCES.txt
+│   │   ├── dependency_links.txt
+│   │   ├── requires.txt
+│   │   └── top_level.txt
 │   ├── .gitattributes
 │   ├── .gitignore
 │   ├── Dockerfile
 │   ├── README.md
+│   ├── docker_create_image.bat
+│   ├── docker_run.bat
+│   ├── install_on_linux.sh
+│   ├── install_on_win.bat
+│   ├── installation_guide.txt
 │   ├── main.py
+│   ├── main_app.py
 │   ├── new_folder_structure.txt
 │   ├── requirements.txt
-│   └── setup.py
+│   ├── setup.py
+│   ├── start_on_linux.sh
+│   └── start_on_win.bat

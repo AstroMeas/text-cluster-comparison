@@ -1,11 +1,10 @@
 from dash import html, dcc
-import dash_bootstrap_components as dbc
 
 # Import layouts
-from layouts.sidebar import create_sidebar
-from layouts.welcome_layout import create_welcome_layout
-from layouts.input_layout import create_input_layout  
-from layouts.analysis_layout import create_analysis_layout
+from .sidebar import create_sidebar
+from .welcome_layout import create_welcome_layout
+from .input_layout import create_input_layout  
+from .analysis_layout import create_analysis_layout
 
 def create_main_layout():
     """

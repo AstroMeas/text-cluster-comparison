@@ -1,5 +1,5 @@
 from dash import html, dcc
-from layouts.theme_toggle import create_theme_toggle
+from src.web.layouts.theme_toggle import create_theme_toggle
 
 def create_sidebar():
     """

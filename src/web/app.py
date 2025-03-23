@@ -1,12 +1,19 @@
+# Starts the app on local host
 from dash import Dash, html, dcc
 import dash
 
-# Importiere das Haupt-Layout
-from layouts.main_layout import create_main_layout
+import os
+import sys
 
-# Importiere alle Callbacks
-from callbacks import navigation_callbacks, input_callbacks
-from callbacks import analysis_callbacks, download_callbacks, theme_callbacks
+# Füge den Projektpfad zum sys.path hinzu
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+# Danach die relativen Imports
+from src.web.layouts.main_layout import create_main_layout
+from src.web.callbacks import navigation_callbacks, input_callbacks
+from src.web.callbacks import analysis_callbacks, download_callbacks, theme_callbacks
 
 # Initialisiere die App
 app = Dash(

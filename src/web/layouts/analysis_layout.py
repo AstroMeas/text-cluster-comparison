@@ -117,46 +117,54 @@ def create_analysis_layout():
         
         # Comparison table section
         html.Div(
+            
             className="content-card",
             children=[
                 html.H2("Detailed Comparison"),
-                
-                html.Button(
-                    "Generate Comparison Table", 
-                    id="generate-table-button",
-                    className="app-button",
-                    style={"margin-bottom": "20px"},
-                    n_clicks=0
-                ),
-                
-                # Data table
-                dcc.Loading(
-                    type="circle",
-                    children=[
-                        dash_table.DataTable(
-                            id="comparison-table",
-                            style_header={
-                                'backgroundColor': 'var(--sidebar-bg)', 
-                                'fontWeight': 'bold',
-                                'color': 'var(--text-color)'
-                            },
-                            style_cell={
-                                'backgroundColor': 'var(--card-bg)',
-                                'color': 'var(--text-color)',
-                                'textAlign': 'left',
-                                'minWidth': '20px', 
-                                'maxWidth': '400px', 
-                                'width': 'auto'
-                            },
-                            style_data={
-                                'whiteSpace': 'normal',
-                                'height': 'auto'
-                            },
-                            page_size=10
-                        )
-                    ]
+                    html.Div(style={"display": "flex", "gap": "10px", "margin-top": "20px"},
+                            children=[
+                    html.Button(
+                        "Generate Comparison Table", 
+                        id="generate-table-button",
+                        className="app-button",
+                        style={"margin-bottom": "20px"},
+                        n_clicks=0
+                    ),
+                    dcc.Checklist(['enforce rising cluster order'],
+                                ['enforce rising cluster order'],
+                                id='enforce-rising-cluster-order'),
+                    
+                    # Data table
+                    dcc.Loading(
+                        type="circle",
+                        children=[
+                            dash_table.DataTable(
+                                id="comparison-table",
+                                style_header={
+                                    'backgroundColor': 'var(--sidebar-bg)', 
+                                    'fontWeight': 'bold',
+                                    'color': 'var(--text-color)'
+                                },
+                                style_cell={
+                                    'backgroundColor': 'var(--card-bg)',
+                                    'color': 'var(--text-color)',
+                                    'textAlign': 'left',
+                                    'minWidth': '20px', 
+                                    'maxWidth': '400px', 
+                                    'width': 'auto'
+                                },
+                                style_data={
+                                    'whiteSpace': 'normal',
+                                    'height': 'auto'
+                                },
+                                page_size=10
+                            )
+                        ]
+                    )
+                ]
                 )
             ]
+        
         ),
         
         # Download section

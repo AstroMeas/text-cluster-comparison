@@ -1,5 +1,5 @@
 from dash import Output, Input, callback
-from layouts.main_layout import render_page_content
+from src.web.layouts.main_layout import render_page_content
 
 # Callback to update page content based on URL
 @callback(

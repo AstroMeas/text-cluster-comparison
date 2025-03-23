@@ -33,35 +33,73 @@ def analyze_texts(n_clicks, text_data, min_cluster_size, graph_type):
     Returns:
         tuple: (main_graph, diff_graph, cluster_data)
     """
-    if n_clicks <= 0 or not text_data:
-        # Return empty figures
-        empty_fig = px.scatter(title="No data to display")
-        return empty_fig, empty_fig, {}
+    # Create empty fallback figures
+    empty_fig = px.scatter(title="No data to display")
+    
+    try:
+        if n_clicks <= 0 or not text_data:
+            return empty_fig, empty_fig, {}
 
-    # Extract data from store
-    text_a = text_data.get('text_a', '')
-    text_b = text_data.get('text_b', '')
-    title_a = text_data.get('title_a', 'Text A')
-    title_b = text_data.get('title_b', 'Text B')
-    separators = text_data.get('separators', [])
-    replacements = text_data.get('replacements', [])
+        # Extract data from store
+        text_a = text_data.get('text_a', '')
+        text_b = text_data.get('text_b', '')
+        title_a = text_data.get('title_a', 'Text A')
+        title_b = text_data.get('title_b', 'Text B')
+        separators = text_data.get('separators', [])
+        replacements = text_data.get('replacements', [])
     
-    # Process texts
-    processed_a = cluster_preprocess(text_a, separators, replacements)
-    processed_b = cluster_preprocess(text_b, separators, replacements)
+        # Debug print - check actual separator values
+        print(f"Using separators: {repr(separators)}")
+        
+        # Ensure space is included as a separator
+        if " " not in separators:
+            separators.append(" ")
+            print("Space separator was missing, added it manually")
+        
+        # Process texts
+        try:
+            from src.preprocessing.text_preprocessing import cluster_preprocess
+            processed_a = cluster_preprocess(text_a, separators, replacements)
+            processed_b = cluster_preprocess(text_b, separators, replacements)
+            
+            print(f"Preprocessed text A length: {len(processed_a)}")
+            print(f"Preprocessed text B length: {len(processed_b)}")
+            if processed_a:
+                print(f"First few tokens A: {processed_a[:5]}")
+            if processed_b:
+                print(f"First few tokens B: {processed_b[:5]}")
+        except Exception as e:
+            print(f"Error in preprocessing: {str(e)}")
+            return empty_fig, empty_fig, {}
 
-    # Find clusters
-    cluster_df = find_cluster(processed_a, processed_b, min_cluster_size, title_a, title_b)
+        # Find clusters
+        try:
+            from src.clustering.cluster_search import find_cluster
+            cluster_df = find_cluster(processed_a, processed_b, min_cluster_size, title_a, title_b)
+            print(f"Found {len(cluster_df)} clusters")
+        except Exception as e:
+            print(f"Error in cluster finding: {str(e)}")
+            return empty_fig, empty_fig, {}
+        
+        # Create visualizations
+        try:
+            if graph_type == 'Bubble':
+                main_fig = create_bubble_plot(cluster_df, title_a, title_b)
+                diff_fig = create_difference_bubble_plot(cluster_df, title_a)
+            else:
+                main_fig = create_line_plot(cluster_df, title_a, title_b)
+                diff_fig = create_difference_line_plot(cluster_df, title_a)
+                
+            return main_fig, diff_fig, cluster_df.to_dict()
+        except Exception as e:
+            print(f"Error in visualization: {str(e)}")
+            # Fall through to default return
     
-    # Create visualizations
-    if graph_type == 'Bubble':
-        main_fig = create_bubble_plot(cluster_df, title_a, title_b)
-        diff_fig = create_difference_bubble_plot(cluster_df, title_a)
-    else:
-        main_fig = create_line_plot(cluster_df, title_a, title_b)
-        diff_fig = create_difference_line_plot(cluster_df, title_a)
+    except Exception as e:
+        print(f"Unexpected error in analyze_texts: {str(e)}")
     
-    return main_fig, diff_fig, cluster_df.to_dict()
+    # Default fallback return if any errors occur
+    return empty_fig, empty_fig, {}
 
 # Callback to update graphs based on type
 @callback(
@@ -163,10 +201,11 @@ def remove_selected_clusters(n_clicks, selected_data, cluster_data, graph_type):
      Output('download-data-store', 'data')],
     [Input('generate-table-button', 'n_clicks')],
     [State('text-data-store', 'data'),
-     State('cluster-data-store', 'data')],
+     State('cluster-data-store', 'data'),
+     State('enforce-rising-cluster-order','value')],
     prevent_initial_call=True
 )
-def generate_comparison_table(n_clicks, text_data, cluster_data):
+def generate_comparison_table(n_clicks, text_data, cluster_data, enforce_value):
     """
     Generates a detailed comparison table between texts.
     
@@ -196,8 +235,14 @@ def generate_comparison_table(n_clicks, text_data, cluster_data):
     # Convert cluster data to DataFrame
     cluster_df = pd.DataFrame(cluster_data)
     
+    # Enforce order
+    if enforce_value == []:
+        enforce = False
+    else:
+        enforce = True
+        
     # Generate comparison table
-    comparison_df = compare_texts(processed_a, processed_b, cluster_df, title_a, title_b)
+    comparison_df = compare_texts(processed_a, processed_b, cluster_df, title_a, title_b, enforce_order=enforce)
     
     # Format table for Dash
     columns = [{"name": col, "id": col} for col in comparison_df.columns]

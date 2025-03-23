@@ -5,11 +5,52 @@ import json
 # Import example data functions
 from src.text_example.load_example_Notre_dame_wikipedia import load_text_a, load_text_b, example_parameters
 
+# Callback to combine selected separators
+@callback(
+    Output('separators-input', 'data'),
+    [Input('common-separators', 'value'),
+     Input('custom-separators-input', 'value')]
+)
+def combine_separators(common_seps, custom_seps):
+    """
+    Combines selected common separators with custom separators.
+    
+    Args:
+        common_seps (list): List of selected common separators
+        custom_seps (str): Custom additional separators
+        
+    Returns:
+        str: Combined separator string (comma-separated)
+    """
+    # Ensure we're working with a list
+    separators = list(common_seps) if common_seps else []
+    
+    # Add custom separators if provided
+    if custom_seps:
+        # Extract individual characters (if user separates them with commas or spaces)
+        custom_chars = [c.strip() for c in custom_seps.replace(',', ' ').split() if c.strip()]
+        separators.extend(custom_chars)
+    
+    # Debug: Print actual values
+    print(f"Combined separators before joining: {repr(separators)}")
+    
+    # We'll use a special marker for space to avoid losing it in string operations
+    result = []
+    for sep in separators:
+        if sep == " ":
+            result.append("SPACE")
+        else:
+            result.append(sep)
+            
+    # Return as comma-separated string
+    return ",".join(result)
+
 # Callback to load example data
 @callback(
     [Output('text-a-input', 'value'),
      Output('text-b-input', 'value'),
-     Output('separators-input', 'value'),
+     Output('common-separators', 'value'),
+     Output('custom-separators-input', 'value'),
      Output('title-a-input', 'value'),
      Output('title-b-input', 'value'),
      Output('replacements-input', 'value')],
@@ -24,10 +65,10 @@ def load_example_data(n_clicks):
         n_clicks (int): Number of button clicks
         
     Returns:
-        tuple: Text A, Text B, Separators, Title A, Title B, and Replacements
+        tuple: Text A, Text B, Common Separators, Custom Separators, Title A, Title B, and Replacements
     """
     if n_clicks <= 0:
-        return "", "", "", "", "", ""
+        return "", "", [], "", "", "", ""
     
     # Load example texts
     text_a = load_text_a()
@@ -36,8 +77,31 @@ def load_example_data(n_clicks):
     # Load example parameters
     separators, replacements, title_a, title_b = example_parameters()
     
-    # Format separators
-    separator_str = ",".join(separators)
+    # Debug output
+    print(f"Example separators: {repr(separators)}")
+    
+    # Split separators into common and custom
+    common_seps = []
+    custom_seps = []
+    
+    # Standard separators that we support in the UI
+    standard_seps = [".", ",", ";", ":", "/", "\\", "-", " ", "\t", "\n"]
+    
+    for sep in separators:
+        if sep in standard_seps:
+            common_seps.append(sep)
+        else:
+            custom_seps.append(sep)
+    
+    # Ensure space is included
+    if " " not in common_seps:
+        common_seps.append(" ")
+        
+    custom_seps_str = " ".join(custom_seps)
+    
+    # Debug output
+    print(f"Common separators: {repr(common_seps)}")
+    print(f"Custom separators: {repr(custom_seps_str)}")
     
     # Format replacements
     if replacements:
@@ -45,7 +109,7 @@ def load_example_data(n_clicks):
     else:
         replacement_str = ""
     
-    return text_a, text_b, separator_str, title_a, title_b, replacement_str
+    return text_a, text_b, common_seps, custom_seps_str, title_a, title_b, replacement_str
 
 # Callback to save input data
 @callback(
@@ -56,7 +120,7 @@ def load_example_data(n_clicks):
      State('text-b-input', 'value'),
      State('title-a-input', 'value'),
      State('title-b-input', 'value'),
-     State('separators-input', 'value'),
+     State('separators-input', 'data'),
      State('replacements-input', 'value')],
     prevent_initial_call=True
 )
@@ -81,7 +145,7 @@ def save_input_data(n_clicks, text_a, text_b, title_a, title_b, separators, repl
     
     # Validate inputs
     if not text_a or not text_b:
-        return {}, html.Div("Error: Both Text A and Text B are required", style={"color": "red"})
+        return {}, html.Div("Fehler: Sowohl Text A als auch Text B sind erforderlich", style={"color": "red"})
     
     # Default titles if not provided
     if not title_a:
@@ -89,10 +153,22 @@ def save_input_data(n_clicks, text_a, text_b, title_a, title_b, separators, repl
     if not title_b:
         title_b = "Text B"
     
-    # Process separators
+    # Process separators with special handling for space
     separator_list = []
     if separators:
-        separator_list = [s.strip() for s in separators.split(",")]
+        for sep in separators.split(","):
+            sep = sep.strip()
+            if sep == "SPACE":
+                separator_list.append(" ")  # Convert back to space
+            elif sep:  # Skip empty strings
+                separator_list.append(sep)
+    
+    # Always ensure space is included
+    if " " not in separator_list:
+        separator_list.append(" ")
+    
+    # Debug output
+    print(f"Final separator list: {repr(separator_list)}")
     
     # Process replacements
     replacement_list = []
@@ -112,7 +188,7 @@ def save_input_data(n_clicks, text_a, text_b, title_a, title_b, separators, repl
         "replacements": replacement_list
     }
     
-    return data, html.Div("Data saved successfully! You can now proceed to Analysis.", 
+    return data, html.Div("Daten erfolgreich gespeichert! Sie können jetzt zur Analyse fortfahren.", 
                          style={"color": "green"})
 
 # Callback to populate input fields from store
@@ -121,11 +197,12 @@ def save_input_data(n_clicks, text_a, text_b, title_a, title_b, separators, repl
      Output('text-b-input', 'value', allow_duplicate=True),
      Output('title-a-input', 'value', allow_duplicate=True),
      Output('title-b-input', 'value', allow_duplicate=True),
-     Output('separators-input', 'value', allow_duplicate=True),
+     Output('common-separators', 'value', allow_duplicate=True),
+     Output('custom-separators-input', 'value', allow_duplicate=True),
      Output('replacements-input', 'value', allow_duplicate=True)],
     [Input('url', 'pathname')],
     [State('text-data-store', 'data')],
-    prevent_initial_call='initial_duplicate'  # Geändert von True zu 'initial_duplicate'
+    prevent_initial_call='initial_duplicate'
 )
 def populate_from_store(pathname, data):
     """
@@ -136,7 +213,7 @@ def populate_from_store(pathname, data):
         data (dict): Data from store
         
     Returns:
-        tuple: Text A, Text B, Title A, Title B, Separators, Replacements
+        tuple: Text A, Text B, Title A, Title B, Common Separators, Custom Separators, Replacements
     """
     if pathname != '/input' or not data:
         raise dash.exceptions.PreventUpdate
@@ -146,11 +223,23 @@ def populate_from_store(pathname, data):
     text_b = data.get('text_b', '')
     title_a = data.get('title_a', '')
     title_b = data.get('title_b', '')
+    separators = data.get('separators', [])
     
-    # Format separators
-    separators = ",".join(data.get('separators', []))
+    # Split separators into common and custom
+    common_separators = []
+    custom_separators = []
+    
+    standard_seps = [".", ",", ";", ":", "/", "\\", "-", " ", "\t", "\n"]
+    
+    for sep in separators:
+        if sep in standard_seps:
+            common_separators.append(sep)
+        else:
+            custom_separators.append(sep)
+    
+    custom_separators_str = " ".join(custom_separators)
     
     # Format replacements
     replacements = ",".join([f"{old}:{new}" for old, new in data.get('replacements', [])])
     
-    return text_a, text_b, title_a, title_b, separators, replacements
+    return text_a, text_b, title_a, title_b, common_separators, custom_separators_str, replacements

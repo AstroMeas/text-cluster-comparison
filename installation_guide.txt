@@ -1,0 +1,23 @@
+
+# Repository klonen
+git clone https://github.com/dein-username/text-cluster-comparison.git
+cd text-cluster-comparison
+
+# Virtuelle Umgebung erstellen und aktivieren
+# Unter Linux/macOS:
+python -m venv venv
+source venv/bin/activate
+
+# Unter Windows:
+python -m venv venv
+venv\Scripts\activate
+
+# Abhängigkeiten installieren
+pip install -r requirements.txt
+pip install -e .
+
+# Anwendung starten (lokale Version)
+python scripts/run_app.py
+
+# ODER: Netzwerkversion starten (für Zugriff von anderen Geräten)
+python scripts/run_app.py --host 0.0.0.0

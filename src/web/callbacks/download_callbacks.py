@@ -1,6 +1,6 @@
 from dash import Output, Input, State, callback, dcc
 import pandas as pd
-from utils.download_utils import prepare_download
+from src.web.utils.download_utils import prepare_download
 
 # Callback for downloading table data
 @callback(

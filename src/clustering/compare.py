@@ -59,7 +59,7 @@ def filter_ordered_clusters(cluster_df, text_a_name='a', text_b_name='b'):
     return sorted_clusters.iloc[valid_indices].reset_index(drop=True)
 
 
-def compare_texts(a, b, cluster_df=None, text_a_name='a', text_b_name='b', separator='་', enforce_order=True):
+def compare_texts(a, b, cluster_df=None, text_a_name='a', text_b_name='b', separator=' ', enforce_order=True):
     """
     Compares two sequences and organizes their similarities and unique elements into a structured DataFrame.
 
