@@ -31,43 +31,43 @@ class Cluster:
         # Output: [5, 8, 10, 13, 3]
     """
 
-        # Startposition im Text A
+        # Start position in text A
         self.pos_a = position_a
 
-        # Bezeichnung der Cluster-Tupel-Elemente für bessere Lesbarkeit
+        # Naming of cluster tuple elements for better readability
         self.clus_tupel_naming = (f'start_{text_a_name}', f'end_{text_a_name}', 
                                   f'start_{text_b_name}', f'end_{text_b_name}', 'length')
 
-        # Liste zur Speicherung der Cluster-Daten
+        # List for storing cluster data
         self.clusters = []
 
-        # Speichert den Clusterinhalt mit der größten Länge
+        # Stores the cluster content with the greatest length
         self.final_cluster = ''
 
     def append_cluster(self, pos_b, cluster_length):
         """
-        Fügt einen identischen Cluster aus Text B hinzu, unter Angabe der 
-        Startposition und Länge
+        Adds an identical cluster from text B, specifying the 
+        start position and length.
 
         Args:
-            pos_b (int): Startposition des Clusters im Text B.
-            cluster_length (int): Die Länge des Clusters.
+            pos_b (int): Start position of the cluster in text B.
+            cluster_length (int): The length of the cluster.
         """
-        # Ein neuer Cluster wird als Liste gespeichert und zu self.clusters hinzugefügt
-        # Die Liste enthält [start_a, end_a, start_b, end_b, length]
+        # A new cluster is stored as a list and added to self.clusters
+        # The list contains [start_a, end_a, start_b, end_b, length]
         self.clusters.append([
-            self.pos_a,  # Start im Text A
-            self.pos_a + cluster_length,  # Ende im Text A
-            pos_b,  # Start im Text B
-            pos_b + cluster_length,  # Ende im Text B
-            cluster_length  # Länge des Clusters
+            self.pos_a,  # Start in text A
+            self.pos_a + cluster_length,  # End in text A
+            pos_b,  # Start in text B
+            pos_b + cluster_length,  # End in text B
+            cluster_length  # Length of the cluster
         ])
 
     def pick_finalcluster(self):
         """
-        Wählt den Cluster in Text B mit der größten Länge aus der Cluster-Liste aus
-        und speichert ihn als finalen Cluster.
+        Selects the cluster in text B with the greatest length from the cluster list
+        and stores it as the final cluster.
         """
         if self.clusters:
-            # Nutzt max() mit einem Schlüssel für die Länge
+            # Uses max() with a key for the length
             self.final_cluster = max(self.clusters, key=lambda x: x[-1])

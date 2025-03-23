@@ -130,8 +130,8 @@ def create_analysis_layout():
                         style={"margin-bottom": "20px"},
                         n_clicks=0
                     ),
-                    dcc.Checklist(['enforce rising cluster order'],
-                                ['enforce rising cluster order'],
+                    dcc.Checklist(['Enforce Rising Cluster Order'],
+                                ['Enforce Rising Cluster Order'],
                                 id='enforce-rising-cluster-order'),
                     
                     # Data table

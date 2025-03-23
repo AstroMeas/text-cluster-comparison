@@ -145,7 +145,7 @@ def save_input_data(n_clicks, text_a, text_b, title_a, title_b, separators, repl
     
     # Validate inputs
     if not text_a or not text_b:
-        return {}, html.Div("Fehler: Sowohl Text A als auch Text B sind erforderlich", style={"color": "red"})
+        return {}, html.Div("Error: Both Text A and Text B are required", style={"color": "red"})
     
     # Default titles if not provided
     if not title_a:
@@ -188,7 +188,7 @@ def save_input_data(n_clicks, text_a, text_b, title_a, title_b, separators, repl
         "replacements": replacement_list
     }
     
-    return data, html.Div("Daten erfolgreich gespeichert! Sie können jetzt zur Analyse fortfahren.", 
+    return data, html.Div("Data successfully saved! You can now proceed to the analysis.", 
                          style={"color": "green"})
 
 # Callback to populate input fields from store

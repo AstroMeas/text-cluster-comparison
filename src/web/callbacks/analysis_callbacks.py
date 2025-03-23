@@ -108,7 +108,7 @@ def analyze_texts(n_clicks, text_data, min_cluster_size, graph_type):
     [Input('update-graph-button', 'n_clicks'),
      Input('graph-type', 'value')],
     [State('cluster-data-store', 'data')],
-    prevent_initial_call='initial_duplicate'  # Geändert von True zu 'initial_duplicate'
+    prevent_initial_call='initial_duplicate'  # Changed from True to 'initial_duplicate'
 )
 def update_graph_type(n_clicks, graph_type, cluster_data):
     """
@@ -147,7 +147,7 @@ def update_graph_type(n_clicks, graph_type, cluster_data):
     [State('main-graph', 'selectedData'),
      State('cluster-data-store', 'data'),
      State('graph-type', 'value')],
-    prevent_initial_call='initial_duplicate'  # Geändert von True zu 'initial_duplicate'
+    prevent_initial_call='initial_duplicate'  # Changed from True to 'initial_duplicate'
 )
 def remove_selected_clusters(n_clicks, selected_data, cluster_data, graph_type):
     """
@@ -213,6 +213,7 @@ def generate_comparison_table(n_clicks, text_data, cluster_data, enforce_value):
         n_clicks (int): Number of button clicks
         text_data (dict): Text data from store
         cluster_data (dict): Cluster data from store
+        enforce_value (list): List containing enforce order option if selected
         
     Returns:
         tuple: (table_columns, table_data, download_data)

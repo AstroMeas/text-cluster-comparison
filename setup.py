@@ -19,7 +19,6 @@ setup(
     name="text_cluster_compare",
     version="0.1.0",
     author='Rafael Deichsel',
-    author_email='your.email@example.com',  # Add your email
     description="A tool for analyzing and visualizing textual similarities between two texts",
     long_description=long_description,
     long_description_content_type="text/markdown",

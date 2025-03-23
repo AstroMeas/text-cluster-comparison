@@ -5,32 +5,32 @@ import dash
 import os
 import sys
 
-# Füge den Projektpfad zum sys.path hinzu
+# Add project path to sys.path
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-# Danach die relativen Imports
+# Import relative modules
 from src.web.layouts.main_layout import create_main_layout
 from src.web.callbacks import navigation_callbacks, input_callbacks
 from src.web.callbacks import analysis_callbacks, download_callbacks, theme_callbacks
 
-# Initialisiere die App
+# Initialize the app
 app = Dash(
     __name__,
-    suppress_callback_exceptions=True,  # Wichtig für Multi-Page-Apps
-    meta_tags=[  # Responsive Meta-Tags
+    suppress_callback_exceptions=True,  # Important for multi-page apps
+    meta_tags=[  # Responsive meta tags
         {"name": "viewport", "content": "width=device-width, initial-scale=1"}
     ]
 )
 
-# Setze den Titel der App
+# Set app title
 app.title = 'Text Cluster Comparison'
 
-# Definiere das Layout
+# Define layout
 app.layout = create_main_layout()
 
-# Startseite URL
+# Start page URL
 app.validation_layout = html.Div([
     create_main_layout(),
 ])

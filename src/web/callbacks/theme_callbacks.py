@@ -33,8 +33,8 @@ def toggle_theme(theme_value, theme_data):
 @callback(
     [Output('theme-toggle-switch', 'value'),
      Output('app-container', 'className', allow_duplicate=True)],
-    [Input('url', 'pathname')],  # Änderung: URL statt theme-store als Trigger
-    [State('theme-store', 'data')],  # theme-store jetzt als State, nicht als Input
+    [Input('url', 'pathname')],  # Change: URL as trigger instead of theme-store
+    [State('theme-store', 'data')],  # theme-store now as State, not as Input
     prevent_initial_call='initial_duplicate'
 )
 def initialize_theme(pathname, theme_data):

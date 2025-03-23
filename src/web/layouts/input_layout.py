@@ -12,12 +12,12 @@ def create_input_layout():
         html.Div(
             className="content-card",
             children=[
-                html.H1("Texteingabe"),
+                html.H1("Text Input"),
                 html.P(
-                    "Geben Sie die zwei zu vergleichenden Texte ein und legen Sie die Vorverarbeitungsoptionen fest."
+                    "Enter the two texts to compare and set the preprocessing options."
                 ),
                 html.Button(
-                    "Beispieldaten laden", 
+                    "Load Example Data", 
                     id="load-example-button",
                     className="app-button",
                     n_clicks=0
@@ -35,11 +35,11 @@ def create_input_layout():
                 html.Div(
                     className="input-section",
                     children=[
-                        html.Label("Titel für Text A:"),
+                        html.Label("Title for Text A:"),
                         dcc.Input(
                             id="title-a-input",
                             type="text",
-                            placeholder="Geben Sie einen Titel für Text A ein",
+                            placeholder="Enter a title for Text A",
                             style={"width": "100%"}
                         )
                     ]
@@ -49,13 +49,13 @@ def create_input_layout():
                 html.Div(
                     className="input-section",
                     children=[
-                        html.Label("Inhalt von Text A:"),
+                        html.Label("Content of Text A:"),
                         html.Div(
                             className="text-area-container",
                             children=[
                                 dcc.Textarea(
                                     id="text-a-input",
-                                    placeholder="Geben Sie hier den Inhalt von Text A ein...",
+                                    placeholder="Enter the content of Text A here...",
                                     style={"width": "100%", "height": "200px"}
                                 )
                             ]
@@ -75,11 +75,11 @@ def create_input_layout():
                 html.Div(
                     className="input-section",
                     children=[
-                        html.Label("Titel für Text B:"),
+                        html.Label("Title for Text B:"),
                         dcc.Input(
                             id="title-b-input",
                             type="text",
-                            placeholder="Geben Sie einen Titel für Text B ein",
+                            placeholder="Enter a title for Text B",
                             style={"width": "100%"}
                         )
                     ]
@@ -89,13 +89,13 @@ def create_input_layout():
                 html.Div(
                     className="input-section",
                     children=[
-                        html.Label("Inhalt von Text B:"),
+                        html.Label("Content of Text B:"),
                         html.Div(
                             className="text-area-container",
                             children=[
                                 dcc.Textarea(
                                     id="text-b-input",
-                                    placeholder="Geben Sie hier den Inhalt von Text B ein...",
+                                    placeholder="Enter the content of Text B here...",
                                     style={"width": "100%", "height": "200px"}
                                 )
                             ]
@@ -109,15 +109,15 @@ def create_input_layout():
         html.Div(
             className="content-card",
             children=[
-                html.H2("Vorverarbeitungsoptionen"),
+                html.H2("Preprocessing Options"),
                 
                 # Improved Separator selection 
                 html.Div(
                     className="input-section",
                     children=[
-                        html.Label("Separatoren:"),
+                        html.Label("Separators:"),
                         html.P(
-                            "Wählen Sie die Zeichen aus, die zur Textteilung verwendet werden sollen",
+                            "Select the characters to be used for text tokenization",
                             className="text-muted"
                         ),
                         
@@ -131,18 +131,18 @@ def create_input_layout():
                                         dcc.Checklist(
                                             id="common-separators",
                                             options=[
-                                                {"label": " Punkt (.)", "value": "."},
-                                                {"label": " Komma (,)", "value": ","},
-                                                {"label": " Semikolon (;)", "value": ";"},
-                                                {"label": " Doppelpunkt (:)", "value": ":"},
-                                                {"label": " Schrägstrich (/)", "value": "/"},
+                                                {"label": " Period (.)", "value": "."},
+                                                {"label": " Comma (,)", "value": ","},
+                                                {"label": " Semicolon (;)", "value": ";"},
+                                                {"label": " Colon (:)", "value": ":"},
+                                                {"label": " Forward Slash (/)", "value": "/"},
                                                 {"label": " Backslash (\\)", "value": "\\"},
-                                                {"label": " Bindestrich (-)", "value": "-"},
-                                                {"label": " Leerzeichen", "value": " "},
-                                                {"label": " Tabulator", "value": "\t"},
-                                                {"label": " Zeilenumbruch", "value": "\n"},
+                                                {"label": " Hyphen (-)", "value": "-"},
+                                                {"label": " Space", "value": " "},
+                                                {"label": " Tab", "value": "\t"},
+                                                {"label": " Line Break", "value": "\n"},
                                             ],
-                                            value=[" ", "."],  # Default: Leerzeichen und Punkt
+                                            value=[" ", "."],  # Default: Space and period
                                             inline=True,
                                             style={"display": "grid", "grid-template-columns": "repeat(3, 1fr)", "gap": "5px"}
                                         ),
@@ -154,11 +154,11 @@ def create_input_layout():
                         # Custom separators
                         html.Div(
                             children=[
-                                html.Label("Zusätzliche benutzerdefinierte Separatoren:"),
+                                html.Label("Additional custom separators:"),
                                 dcc.Input(
                                     id="custom-separators-input",
                                     type="text",
-                                    placeholder="z.B.: ? ! # $",
+                                    placeholder="e.g.: ? ! # $",
                                     style={"width": "100%"}
                                 )
                             ]
@@ -173,15 +173,15 @@ def create_input_layout():
                 html.Div(
                     className="input-section",
                     children=[
-                        html.Label("Zeichenersetzungen:"),
+                        html.Label("Character Replacements:"),
                         html.P(
-                            "Geben Sie Zeichenersetzungen im Format 'alt:neu' an (durch Komma getrennt)",
+                            "Enter character replacements in 'old:new' format (separated by commas)",
                             className="text-muted"
                         ),
                         dcc.Input(
                             id="replacements-input",
                             type="text",
-                            placeholder="z.B.: ä:ae,ö:oe,ü:ue",
+                            placeholder="e.g.: ä:ae,ö:oe,ü:ue",
                             style={"width": "100%"}
                         )
                     ]
@@ -195,9 +195,9 @@ def create_input_layout():
                         html.Div(
                             style={"display": "flex", "flex-direction": "column", "align-items": "flex-start"},
                             children=[
-                                html.Label("Schritt 1:", style={"font-weight": "bold", "margin-bottom": "5px"}),
+                                html.Label("Step 1:", style={"font-weight": "bold", "margin-bottom": "5px"}),
                                 html.Button(
-                                    "Daten speichern", 
+                                    "Save Data", 
                                     id="save-input-button",
                                     className="app-button",
                                     n_clicks=0
@@ -215,10 +215,10 @@ def create_input_layout():
                         html.Div(
                             style={"display": "flex", "flex-direction": "column", "align-items": "flex-start"},
                             children=[
-                                html.Label("Schritt 2:", style={"font-weight": "bold", "margin-bottom": "5px"}),
+                                html.Label("Step 2:", style={"font-weight": "bold", "margin-bottom": "5px"}),
                                 dcc.Link(
                                     html.Button(
-                                        "Zur Analyse gehen", 
+                                        "Go to Analysis", 
                                         className="app-button",
                                     ),
                                     href="/analysis"
