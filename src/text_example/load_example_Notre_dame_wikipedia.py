@@ -2,7 +2,7 @@ def example_parameters():
     '''
     returns the parameters for mainfunction which can be used for debther editions 
     '''
-    sep=[r' ',r',',r'.',r';',r':',r'_',r'-',r'#',r'!',r'?',r'§',r'$',r'&',r'/',r'0',r'1',r'2',r'3',r'4',r'5',r'6',r'7',r'8',r'9']
+    sep=[r' ',r',',r'.',r';',r':',r'_',r'-',r'#',r'!',r'?',r'§',r'$',r'&',r'/']
     replace_chars=[]
     text_a_name='Notre Dame 2015'
     text_b_name='Notre Dame 2025'
